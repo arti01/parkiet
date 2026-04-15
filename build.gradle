@@ -9,26 +9,27 @@ version = "0.1"
 group = "arti.parkiet"
 
 
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
-    annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
-    implementation("io.micronaut:micronaut-management")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+
     implementation("io.micronaut.data:micronaut-data-mongodb")
+    implementation("io.micronaut.mongodb:micronaut-mongo-sync")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    compileOnly("io.micronaut:micronaut-http-client")
+
+    implementation("org.apache.parquet:parquet-avro:1.17.0")
+    implementation("org.apache.hadoop:hadoop-client:3.5.0")
+    implementation("org.apache.hadoop:hadoop-common:3.5.0")
+
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.mongodb:mongodb-driver-reactivestreams")
-    testImplementation("io.micronaut:micronaut-http-client")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    runtimeOnly("org.mongodb:mongodb-driver-sync")
+    runtimeOnly("org.yaml:snakeyaml")
 }
-
-
 
 application {
     mainClass = "arti.parkiet.Application"
@@ -66,6 +67,9 @@ micronaut {
 
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation"
+}
 
 tasks.named("dockerfileNative") {
     jdkVersion = "25"

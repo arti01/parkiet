@@ -1,3 +1,17 @@
 micronaut:
   application:
     name: parkiet
+  data:
+    repositories:
+      mongodb:
+        enabled: true
+
+mongodb:
+  servers:
+    default:
+      uri: "mongodb://localhost:27017/export_db"
+
+storage:
+  export:
+    path: "/home/arti01/tmp"
+    compression: "SNAPPY" # Możliwe wartości: UNCOMPRESSED, SNAPPY, GZIP, ZSTD
